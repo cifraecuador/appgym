@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "surface": "#131318", "on-tertiary-fixed": "#1a1a28", "status-warning": "#FFB800", "tertiary-fixed-dim": "#c7c4d7", "on-secondary-fixed-variant": "#802a00", "secondary-container": "#ff5e07", "text-muted": "#68687D", "surface-card": "#16161E", "text-secondary": "#A0A0B2", "on-surface-variant": "#c5c9ac", "secondary-fixed": "#ffdbce", "tertiary-container": "#e3e0f3", "on-tertiary-container": "#646373", "outline-variant": "#444932", "tertiary": "#ffffff", "status-info": "#00C2FF", "surface-overlay": "#28283A", "surface-container-highest": "#35343a", "error": "#ffb4ab", "surface-base": "#0D0D12", "surface-tint": "#b0d500", "error-container": "#93000a", "text-primary": "#FFFFFF", "surface-container": "#1f1f24", "primary-container": "#caf300", "on-error-container": "#ffdad6", "status-active": "#D4FF00", "on-error": "#690005", "inverse-on-surface": "#303035", "on-surface": "#e4e1e9", "on-primary": "#2a3400", "secondary": "#ffb59a", "border-glass": "rgba(255, 255, 255, 0.08)", "surface-container-high": "#2a292f", "surface-container-lowest": "#0e0e13", "inverse-primary": "#536600", "outline": "#8f9378", "on-primary-fixed": "#171e00", "on-secondary": "#5a1b00", "on-background": "#e4e1e9", "surface-container-low": "#1b1b20", "on-primary-container": "#596c00", "on-primary-fixed-variant": "#3e4c00", "surface-dim": "#131318", "primary-fixed-dim": "#b0d500", "surface-raised": "#1F1F2C", "secondary-fixed-dim": "#ffb59a", "border-subtle": "#2A2A38", "surface-variant": "#35343a", "primary-fixed": "#caf300", "surface-bright": "#39383e", "primary": "#ffffff", "on-tertiary-fixed-variant": "#464554", "background": "#131318", "on-tertiary": "#2f2f3d", "status-danger": "#FF5C00", "tertiary-fixed": "#e3e0f3", "on-secondary-container": "#531900", "inverse-surface": "#e4e1e9", "on-secondary-fixed": "#370e00" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "1rem", "margin": "1.25rem", "space-sm": "0.75rem", "space-2xl": "2.5rem", "space-xs": "0.5rem", "space-md": "1rem", "space-lg": "1.5rem", "space-2xs": "0.25rem", "space-xl": "2rem" }, fontFamily: { "metric-md": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "metric-xl": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"] }, fontSize: { "metric-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-lg": ["34px", { "lineHeight": "40px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "display-lg-mobile": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "800" }], "headline-lg": ["24px", { "lineHeight": "30px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "metric-xl": ["32px", { "lineHeight": "36px", "letterSpacing": "-0.03em", "fontWeight": "800" }], "headline-md": ["20px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "700" }], "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "700" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }] } } } };</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#0D0D12;}body{overscroll-behavior-y:none;-webkit-tap-highlight-color:transparent;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,16px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface-base text-text-primary font-body-md antialiased min-h-screen flex flex-col selection:bg-status-active selection:text-surface-base"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-base/85 backdrop-blur-xl shadow-[0_1px_12px_rgba(0,0,0,0.5)]"><div class="h-16 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><img alt="Gym_logo_design_instructions_2K_20261004175411.jpg" class="h-8 w-auto object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1XWgBuG_XNicWLeuo7YvguyupE6sB6k3o_LKFhCCyziFb5gOF2q-t9tNvQiieQGwuKFA3VfxT-Yvwhn3A95YZL4haGumX-kizoAcdrndzNajKCObLgZS23xQRlRyeo3oLjQTeGtUrhY87DlLRtKInMQsZBxydhvT6m20oLyR74pvCInXzHL0_eDMd83WPbbWNEqn0akeE801Q9mgNMnZihhRxFKmuAx_3ZzQCxud7sad9gEFBfAabpy7_NOEZkHFf8MpI6N58mhEQ"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-2xs text-text-secondary"><span class="font-label-sm text-label-sm uppercase tracking-wider text-text-muted truncate">FitForge Club</span><span class="material-symbols-outlined text-[14px] text-text-muted shrink-0">expand_more</span></div><span class="font-headline-sm text-headline-sm text-text-primary tracking-tight truncate">Finanzas</span></div></div><div class="flex items-center gap-space-xs shrink-0"><button aria-label="Notificaciones" class="w-11 h-11 relative flex items-center justify-center rounded-xl bg-surface-card hover:bg-surface-raised transition-colors"><span class="material-symbols-outlined text-text-secondary text-[20px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-status-danger ring-2 ring-surface-card animate-pulse"></span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 flex flex-col w-full bg-surface-base pt-16 pb-24"><div class="flex flex-col w-full px-margin space-y-space-md pb-safe">
+<!-- Ambient Glow Background Decoration -->
+<div class="relative w-full">
+<div class="absolute -top-6 left-1/2 -translate-x-1/2 w-64 h-32 bg-status-active/5 rounded-full blur-3xl pointer-events-none"></div>
+</div>
+<!-- Header Controls: Time Filter & Instant Export Action -->
+<div class="flex items-center justify-between gap-space-xs pt-space-xs">
+<div class="relative inline-block">
+<button class="flex items-center gap-space-xs bg-surface-card hover:bg-surface-raised px-space-md py-2.5 rounded-xl transition-all shadow-sm" id="periodSelectorBtn">
+<span class="material-symbols-outlined text-status-active text-[18px]">calendar_today</span>
+<span class="font-label-lg text-label-lg text-text-primary">Este Mes (Octubre)</span>
+<span class="material-symbols-outlined text-text-secondary text-[18px]">expand_more</span>
+</button>
+</div>
+<div class="flex items-center gap-space-2xs bg-surface-card px-space-sm py-1.5 rounded-full">
+<span class="w-2 h-2 rounded-full bg-status-active animate-ping"></span>
+<span class="font-label-sm text-label-sm text-status-active uppercase tracking-wider">Cierre en vivo</span>
+</div>
+</div>
+<!-- Hero Financial Overview Banner -->
+<div class="relative overflow-hidden rounded-2xl bg-surface-card p-space-md shadow-md">
+<div class="absolute -right-12 -top-12 w-40 h-40 bg-status-active/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-text-secondary">Facturación Bruta Mensual</span>
+<div class="flex items-baseline gap-space-xs mt-0.5">
+<span class="font-metric-xl text-metric-xl text-text-primary tracking-tight">$34,120</span>
+<span class="font-label-sm text-label-sm text-text-muted">USD</span>
+</div>
+</div>
+<div class="flex items-center gap-1 bg-status-active/15 text-status-active px-2.5 py-1 rounded-full shadow-[0_2px_12px_rgba(212,255,0,0.15)]">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="font-label-md text-label-md">+14.2%</span>
+</div>
+</div>
+<!-- Mini Live Performance Metric Chips -->
+<div class="grid grid-cols-2 gap-space-xs pt-space-xs">
+<div class="bg-surface-raised p-space-sm rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted">Recaudado Hoy</span>
+<span class="font-headline-sm text-headline-sm text-text-primary">$1,840.00</span>
+</div>
+<div class="w-8 h-8 rounded-lg bg-surface-card flex items-center justify-center text-status-active">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+</div>
+<div class="bg-surface-raised p-space-sm rounded-xl flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted">Cobros Exitosos</span>
+<span class="font-headline-sm text-headline-sm text-text-primary">98.4%</span>
+</div>
+<div class="w-8 h-8 rounded-lg bg-surface-card flex items-center justify-center text-status-info">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+</div>
+</div>
+</div>
+<!-- KPI Grid 2x2 -->
+<div class="grid grid-cols-2 gap-space-sm">
+<!-- 1. MRR -->
+<div class="bg-surface-card p-space-md rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-text-secondary uppercase">MRR Recurrente</span>
+<div class="w-7 h-7 rounded-lg bg-surface-raised flex items-center justify-center text-status-active">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+</div>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-text-primary tracking-tight">$28,450</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="inline-flex items-center gap-0.5 text-status-active font-label-sm text-label-sm bg-status-active/10 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[12px]">arrow_upward</span>
+          12.3%
+        </span>
+<span class="font-label-sm text-label-sm text-text-muted">vs mes ant.</span>
+</div>
+</div>
+<!-- 2. Facturado Total -->
+<div class="bg-surface-card p-space-md rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-text-secondary uppercase">Total Facturado</span>
+<div class="w-7 h-7 rounded-lg bg-surface-raised flex items-center justify-center text-text-primary">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+</div>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-text-primary tracking-tight">$34,120</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="inline-flex items-center gap-0.5 text-status-active font-label-sm text-label-sm bg-status-active/10 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[12px]">trending_up</span>
+          Meta 106%
+        </span>
+</div>
+</div>
+<!-- 3. ARPU -->
+<div class="bg-surface-card p-space-md rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-text-secondary uppercase">ARPU (Socio)</span>
+<div class="w-7 h-7 rounded-lg bg-surface-raised flex items-center justify-center text-status-info">
+<span class="material-symbols-outlined text-[16px]">person_celebrate</span>
+</div>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-text-primary tracking-tight">$27.34</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="inline-flex items-center gap-0.5 text-status-active font-label-sm text-label-sm bg-status-active/10 px-1.5 py-0.5 rounded">
+<span class="material-symbols-outlined text-[12px]">arrow_upward</span>
+          5.1%
+        </span>
+<span class="font-label-sm text-label-sm text-text-muted">ticket prom.</span>
+</div>
+</div>
+<!-- 4. Churn Rate -->
+<div class="bg-surface-card p-space-md rounded-2xl flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-text-secondary uppercase">Churn Rate</span>
+<div class="w-7 h-7 rounded-lg bg-surface-raised flex items-center justify-center text-status-active">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+</div>
+</div>
+<div class="my-space-xs">
+<div class="font-headline-lg text-headline-lg text-status-active tracking-tight">3.1%</div>
+</div>
+<div class="flex items-center gap-1">
+<span class="inline-flex items-center gap-1 text-status-active font-label-sm text-label-sm bg-status-active/15 px-2 py-0.5 rounded-full font-bold">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          Excelente
+        </span>
+</div>
+</div>
+</div>
+<!-- Interactive Revenue Accumulation Chart (SVG Area with Gradient) -->
+<div class="bg-surface-card rounded-2xl p-space-md shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Curva de Ingresos</h3>
+<p class="font-body-sm text-body-sm text-text-secondary">Evolución acumulada vs cuota proyectada</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-status-active shadow-[0_0_8px_rgba(212,255,0,0.6)]"></span>
+<span class="font-label-sm text-label-sm text-text-secondary">Real</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-text-muted"></span>
+<span class="font-label-sm text-label-sm text-text-muted">Meta</span>
+</div>
+</div>
+</div>
+<!-- Chart Canvas Container -->
+<div class="relative w-full pt-space-xs">
+<svg class="w-full h-36 overflow-visible" preserveaspectratio="none" viewbox="0 0 340 140">
+<defs>
+<lineargradient id="neonGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#D4FF00" stop-opacity="0.35"></stop>
+<stop offset="70%" stop-color="#D4FF00" stop-opacity="0.05"></stop>
+<stop offset="100%" stop-color="#D4FF00" stop-opacity="0.0"></stop>
+</lineargradient>
+<lineargradient id="lineGlow" x1="0" x2="1" y1="0" y2="0">
+<stop offset="0%" stop-color="#caf300"></stop>
+<stop offset="100%" stop-color="#D4FF00"></stop>
+</lineargradient>
+</defs>
+<!-- Horizontal Guides -->
+<line stroke="#2A2A38" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="340" y1="20" y2="20"></line>
+<line stroke="#2A2A38" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="340" y1="60" y2="60"></line>
+<line stroke="#2A2A38" stroke-dasharray="3 3" stroke-width="1" x1="0" x2="340" y1="100" y2="100"></line>
+<!-- Projected Target Line -->
+<path d="M 0 120 L 70 95 L 140 75 L 210 50 L 280 32 L 340 18" fill="none" stroke="#464554" stroke-dasharray="4 4" stroke-width="1.5"></path>
+<!-- Area Fill under Real Curve -->
+<path d="M 0 125 Q 40 120 70 100 T 140 80 T 210 45 T 280 28 T 340 14 L 340 140 L 0 140 Z" fill="url(#neonGradient)"></path>
+<!-- Actual Revenue Curve -->
+<path d="M 0 125 Q 40 120 70 100 T 140 80 T 210 45 T 280 28 T 340 14" fill="none" stroke="url(#lineGlow)" stroke-linecap="round" stroke-width="3"></path>
+<!-- Key Milestones Points -->
+<circle cx="140" cy="80" fill="#0D0D12" r="3.5" stroke="#D4FF00" stroke-width="2"></circle>
+<circle cx="280" cy="28" fill="#0D0D12" r="3.5" stroke="#D4FF00" stroke-width="2"></circle>
+<circle cx="340" cy="14" fill="#D4FF00" r="5"></circle>
+<circle class="animate-pulse" cx="340" cy="14" fill="#D4FF00" fill-opacity="0.3" r="9"></circle>
+</svg>
+<!-- Bottom Days Axis -->
+<div class="flex justify-between items-center text-text-muted font-label-sm text-label-sm pt-2">
+<span>Sem 1</span>
+<span>Sem 2</span>
+<span>Sem 3</span>
+<span>Sem 4</span>
+<span class="text-status-active font-bold">Hoy (Día 28)</span>
+</div>
+</div>
+</div>
+<!-- Membership Breakdown & Segmented Bars -->
+<div class="bg-surface-card rounded-2xl p-space-md shadow-sm space-y-space-md">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Ingresos por Membresía</h3>
+<p class="font-body-sm text-body-sm text-text-secondary">4 categorías activas en el club</p>
+</div>
+<span class="font-label-md text-label-md text-text-muted">Total: $34,120</span>
+</div>
+<!-- Segmented Multi-Bar Visual Strip -->
+<div class="w-full h-3 rounded-full bg-surface-raised flex overflow-hidden p-0.5 gap-0.5">
+<div class="h-full bg-status-active rounded-l-full" style="width: 41.6%;" title="VIP All-Access"></div>
+<div class="h-full bg-status-info" style="width: 31.8%;" title="Crossfit &amp; Clases"></div>
+<div class="h-full bg-secondary" style="width: 18.5%;" title="Musculación"></div>
+<div class="h-full bg-status-warning rounded-r-full" style="width: 8.1%;" title="Day Pass"></div>
+</div>
+<!-- Category Detailed Items -->
+<div class="space-y-space-sm pt-space-xs">
+<!-- VIP -->
+<div class="flex flex-col bg-surface-raised p-space-sm rounded-xl space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-md bg-status-active shrink-0 shadow-[0_0_6px_rgba(212,255,0,0.5)]"></span>
+<span class="font-label-lg text-label-lg text-text-primary">VIP All-Access</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-text-primary">$14,200</span>
+<span class="font-label-sm text-label-sm text-text-muted ml-1">(41.6%)</span>
+</div>
+</div>
+<div class="w-full bg-surface-card h-1.5 rounded-full overflow-hidden">
+<div class="bg-status-active h-full rounded-full" style="width: 41.6%;"></div>
+</div>
+</div>
+<!-- Crossfit -->
+<div class="flex flex-col bg-surface-raised p-space-sm rounded-xl space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-md bg-status-info shrink-0"></span>
+<span class="font-label-lg text-label-lg text-text-primary">Crossfit &amp; Clases Dirigidas</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-text-primary">$10,850</span>
+<span class="font-label-sm text-label-sm text-text-muted ml-1">(31.8%)</span>
+</div>
+</div>
+<div class="w-full bg-surface-card h-1.5 rounded-full overflow-hidden">
+<div class="bg-status-info h-full rounded-full" style="width: 31.8%;"></div>
+</div>
+</div>
+<!-- Musculación -->
+<div class="flex flex-col bg-surface-raised p-space-sm rounded-xl space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-md bg-secondary shrink-0"></span>
+<span class="font-label-lg text-label-lg text-text-primary">Musculación Estándar</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-text-primary">$6,320</span>
+<span class="font-label-sm text-label-sm text-text-muted ml-1">(18.5%)</span>
+</div>
+</div>
+<div class="w-full bg-surface-card h-1.5 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 18.5%;"></div>
+</div>
+</div>
+<!-- Day Pass & Nutrición -->
+<div class="flex flex-col bg-surface-raised p-space-sm rounded-xl space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-md bg-status-warning shrink-0"></span>
+<span class="font-label-lg text-label-lg text-text-primary">Day Pass &amp; Suplementación</span>
+</div>
+<div class="text-right">
+<span class="font-label-lg text-label-lg text-text-primary">$2,750</span>
+<span class="font-label-sm text-label-sm text-text-muted ml-1">(8.1%)</span>
+</div>
+</div>
+<div class="w-full bg-surface-card h-1.5 rounded-full overflow-hidden">
+<div class="bg-status-warning h-full rounded-full" style="width: 8.1%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Operational Insight Card with Coach & Reception Performance -->
+<div class="bg-surface-card rounded-2xl p-space-md shadow-sm space-y-space-sm">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Métodos de Cobro</h3>
+<span class="font-label-sm text-label-sm text-status-active bg-status-active/10 px-2 py-0.5 rounded-full">Automático 91%</span>
+</div>
+<div class="space-y-space-xs">
+<!-- Tarjeta Recurrente -->
+<div class="flex items-center justify-between p-space-sm bg-surface-raised rounded-xl">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-card flex items-center justify-center text-status-active">
+<span class="material-symbols-outlined text-[20px]">credit_card</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-text-primary">Stripe / Tarjeta Recurrente</span>
+<span class="font-body-sm text-body-sm text-text-muted">742 transacciones</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-lg text-label-lg text-text-primary">$24,900</div>
+<div class="font-label-sm text-label-sm text-text-secondary">73.0%</div>
+</div>
+</div>
+<!-- Domiciliación Bancaria -->
+<div class="flex items-center justify-between p-space-sm bg-surface-raised rounded-xl">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-card flex items-center justify-center text-status-info">
+<span class="material-symbols-outlined text-[20px]">account_balance</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-text-primary">Domiciliación SEPA / ACH</span>
+<span class="font-body-sm text-body-sm text-text-muted">184 transacciones</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-lg text-label-lg text-text-primary">$6,140</div>
+<div class="font-label-sm text-label-sm text-text-secondary">18.0%</div>
+</div>
+</div>
+<!-- Mostrador / Efectivo / POS -->
+<div class="flex items-center justify-between p-space-sm bg-surface-raised rounded-xl">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-surface-card flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">point_of_sale</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-text-primary">Efectivo &amp; POS Recepción</span>
+<span class="font-body-sm text-body-sm text-text-muted">98 transacciones</span>
+</div>
+</div>
+<div class="text-right">
+<div class="font-label-lg text-label-lg text-text-primary">$3,080</div>
+<div class="font-label-sm text-label-sm text-text-secondary">9.0%</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Club Facility Visual Vignette Card -->
+<div class="relative rounded-2xl overflow-hidden shadow-md">
+<img class="w-full h-36 object-cover" data-alt="High performance dark modern gym interior with neon lighting, advanced barbells, sleek cardio machinery and athletic members training with discipline in an atmospheric moody environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7cuqtuLuXhzgvetapaDxp4OP23nnCo4qJOjdsLzSL-DhzfGP2hlQytDIo8VIQkGZFCgSaqyAFyaR1il_kC_7CYwGNcbSL2C50Kx1G_M4vsGyJ20NQ0PBQ-r957D83hEHDuq_y6hcj2tpg-FH8o-sIy11YJyv5JcpusIB4QVT3nSVQUw8t9Yk-CxxiuHEJSbC5LPXFkwGxua46fBm6UcLKohDCSuoIiNag3GRd6q_jUuc5Uk9PxT9s"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-base via-surface-card/60 to-transparent p-space-md flex flex-col justify-end">
+<div class="flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-status-active uppercase tracking-wider font-bold">Eficiencia de Sala</span>
+<h4 class="font-headline-sm text-headline-sm text-text-primary">Retorno x Metro Cuadrado</h4>
+</div>
+<div class="text-right">
+<span class="font-metric-md text-metric-md text-text-primary">$42.80</span>
+<span class="font-label-sm text-label-sm text-text-secondary block">/ m² mes</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Primary CTA: Export Financial Report -->
+<div class="pt-space-xs pb-space-lg">
+<button class="w-full h-14 bg-status-active text-surface-base font-label-lg text-label-lg rounded-2xl flex items-center justify-center gap-space-xs shadow-[0_4px_20px_rgba(212,255,0,0.25)] active:scale-[0.98] transition-all duration-150" id="exportReportBtn">
+<span class="material-symbols-outlined text-[20px]">file_download</span>
+<span>Exportar Reporte Financiero (PDF / Excel)</span>
+</button>
+</div>
+</div>
+<script>
+  (function() {
+    const exportBtn = document.getElementById('exportReportBtn');
+    if (exportBtn) {
+      exportBtn.addEventListener('click', function() {
+        const originalText = exportBtn.innerHTML;
+        exportBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[20px] animate-spin">progress_activity</span>
+          <span>Generando informe FitForge...</span>
+        `;
+        exportBtn.classList.add('opacity-90');
+        
+        setTimeout(() => {
+          exportBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+            <span>¡Descarga Lista (PDF + CSV)!</span>
+          `;
+          exportBtn.classList.remove('opacity-90');
+          exportBtn.classList.replace('bg-status-active', 'bg-status-active');
+
+          setTimeout(() => {
+            exportBtn.innerHTML = originalText;
+          }, 2400);
+        }, 1200);
+      });
+    }
+
+    const periodSelector = document.getElementById('periodSelectorBtn');
+    if (periodSelector) {
+      periodSelector.addEventListener('click', function() {
+        periodSelector.classList.toggle('ring-1');
+        periodSelector.classList.toggle('ring-status-active');
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-card/90 backdrop-blur-xl shadow-[0_-4px_24px_rgba(0,0,0,0.6)]" data-active-classes="text-status-active font-label-md"><div class="h-16 px-space-xs flex items-center justify-around"><a class="flex-1 flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-text-muted hover:text-text-primary transition-all duration-200 group" data-path="inicio" href="#"><span class="material-symbols-outlined text-[22px] group-hover:scale-105 transition-transform">grid_view</span><span class="font-label-sm text-label-sm mt-0.5">Inicio</span></a><a class="flex-1 flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-text-muted hover:text-text-primary transition-all duration-200 group" data-path="socios" href="#"><span class="material-symbols-outlined text-[22px] group-hover:scale-105 transition-transform">groups</span><span class="font-label-sm text-label-sm mt-0.5">Socios</span></a><a class="flex-1 flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-text-muted hover:text-text-primary transition-all duration-200 group" data-path="captacion" href="#"><span class="material-symbols-outlined text-[22px] group-hover:scale-105 transition-transform">trending_up</span><span class="font-label-sm text-label-sm mt-0.5">Captación</span></a><a class="flex-1 flex flex-col items-center justify-center min-w-[44px] min-h-[44px] text-text-muted hover:text-text-primary transition-all duration-200 group" data-path="cobros" href="#"><span class="material-symbols-outlined text-[22px] group-hover:scale-105 transition-transform">receipt_long</span><span class="font-label-sm text-label-sm mt-0.5">Cobros</span></a><a aria-current="page" class="flex-1 flex flex-col items-center justify-center min-w-[44px] min-h-[44px] transition-all duration-200 group text-status-active font-label-md" data-path="finanzas" href="#"><span class="material-symbols-outlined text-[22px] group-hover:scale-105 transition-transform">monitoring</span><span class="font-label-sm text-label-sm mt-0.5">Finanzas</span></a></div></nav></body></html>

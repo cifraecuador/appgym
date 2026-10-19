@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FitForge OS - Gym Management Mobile App & Analytics</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Chart.js for smooth data visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-base: #0D0D12;
+      --surface-card: #16161E;
+      --surface-raised: #1F1F2C;
+      --surface-overlay: #28283A;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: #2A2A38;
+      
+      --text-primary: #FFFFFF;
+      --text-secondary: #A0A0B2;
+      --text-muted: #68687D;
+      
+      --accent-neon: #D4FF00;
+      --accent-neon-hover: #b0d500;
+      --accent-orange: #FF5C00;
+      --accent-info: #00C2FF;
+      --status-success: #D4FF00;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Mobile Container Frame Simulation */
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background-color: var(--bg-base);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 0 50px rgba(0,0,0,0.8);
+      border-left: 1px solid rgba(255,255,255,0.05);
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* App Header */
+    .app-header {
+      padding: 16px 20px 12px 20px;
+      background: rgba(13, 13, 18, 0.92);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .gym-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .gym-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #FF5C00, #D4FF00);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #0D0D12;
+      font-size: 18px;
+    }
+
+    .gym-info h1 {
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .gym-info p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .status-ping {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(212, 255, 0, 0.12);
+      border: 1px solid rgba(212, 255, 0, 0.3);
+      color: var(--accent-neon);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-neon);
+      box-shadow: 0 0 8px var(--accent-neon);
+    }
+
+    /* Main Content Area */
+    .content-area {
+      flex: 1;
+      padding: 16px 20px 90px 20px;
+      overflow-y: auto;
+    }
+
+    /* Tab View Visibility */
+    .tab-page {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out forwards;
+    }
+    .tab-page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background-color: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .badge-trend {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-trend.up {
+      background: rgba(212, 255, 0, 0.15);
+      color: var(--accent-neon);
+      border: 1px solid rgba(212, 255, 0, 0.3);
+    }
+
+    .badge-trend.warning {
+      background: rgba(255, 92, 0, 0.15);
+      color: var(--accent-orange);
+      border: 1px solid rgba(255, 92, 0, 0.3);
+    }
+
+    /* Quick Action Grid */
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .action-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-primary);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .action-btn:active {
+      transform: scale(0.96);
+      background: var(--surface-raised);
+    }
+
+    .action-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .action-icon.alert { background: rgba(255, 92, 0, 0.15); color: var(--accent-orange); }
+    .action-icon.member { background: rgba(212, 255, 0, 0.15); color: var(--accent-neon); }
+    .action-icon.promo { background: rgba(0, 194, 255, 0.15); color: var(--accent-info); }
+
+    /* Search & Filter Pills */
+    .search-box {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 46px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 0 16px 0 42px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-neon);
+      box-shadow: 0 0 12px rgba(212, 255, 0, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-secondary);
+      font-size: 16px;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+    .filter-pills::-webkit-scrollbar { display: none; }
+
+    .pill {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .pill.active {
+      background: var(--accent-neon);
+      color: #0D0D12;
+      border-color: var(--accent-neon);
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(212, 255, 0, 0.25);
+    }
+
+    /* Subscriber Card */
+    .subscriber-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .sub-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sub-avatar-wrap {
+      position: relative;
+    }
+
+    .sub-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--surface-raised);
+    }
+
+    .status-ring {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--surface-card);
+    }
+    .status-ring.Active { background: var(--accent-neon); }
+    .status-ring.Expiring_Soon { background: var(--accent-orange); }
+    .status-ring.Expired { background: #68687D; }
+    .status-ring.Paused { background: var(--accent-info); }
+
+    .sub-details h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .sub-details p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .sub-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    .sub-badge.Active { background: rgba(212, 255, 0, 0.12); color: var(--accent-neon); border: 1px solid rgba(212, 255, 0, 0.25); }
+    .sub-badge.Expiring_Soon { background: rgba(255, 92, 0, 0.15); color: var(--accent-orange); border: 1px solid rgba(255, 92, 0, 0.3); }
+    .sub-badge.Expired { background: rgba(104, 104, 125, 0.15); color: #A0A0B2; border: 1px solid rgba(160, 160, 178, 0.2); }
+    .sub-badge.Paused { background: rgba(0, 194, 255, 0.15); color: var(--accent-info); border: 1px solid rgba(0, 194, 255, 0.3); }
+
+    .btn-wa {
+      background: rgba(37, 211, 102, 0.15);
+      border: 1px solid rgba(37, 211, 102, 0.3);
+      color: #25D366;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform 0.15s ease;
+    }
+
+    .btn-wa:active {
+      transform: scale(0.9);
+    }
+
+    /* Marketing Recommendation Banner */
+    .promo-banner {
+      background: linear-gradient(135deg, rgba(255, 92, 0, 0.18), rgba(212, 255, 0, 0.12));
+      border: 1px solid rgba(255, 92, 0, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    .promo-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-orange);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .promo-banner h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .promo-banner p {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .btn-promo-action {
+      background: var(--accent-neon);
+      color: #0D0D12;
+      border: none;
+      padding: 8px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Monetization KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .kpi-num {
+      font-size: 22px;
+      font-weight: 800;
+      margin-top: 4px;
+      color: var(--text-primary);
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      height: 70px;
+      background: rgba(22, 22, 30, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+      padding: 0 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-secondary);
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 20%;
+      transition: color 0.2s ease;
+    }
+
+    .nav-item.active {
+      color: var(--accent-neon);
+      font-weight: 700;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent-neon);
+      display: none;
+    }
+
+    .nav-item.active .nav-dot {
+      display: block;
+    }
+
+    /* Modal Sheet */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: none;
+      justify-content: center;
+      align-items: flex-end;
+      z-index: 2000;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface-raised);
+      border-top-left-radius: var(--radius-lg);
+      border-top-right-radius: var(--radius-lg);
+      border-top: 1px solid var(--border-subtle);
+      padding: 24px 20px 34px 20px;
+      animation: slideUp 0.25s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .modal-header h2 {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .btn-close {
+      background: var(--surface-overlay);
+      border: none;
+      color: var(--text-secondary);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .template-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-size: 13px;
+      color: var(--text-primary);
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .btn-primary-cta {
+      width: 100%;
+      height: 48px;
+      background: var(--accent-neon);
+      color: #0D0D12;
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.2s ease;
+    }
+    .btn-primary-cta:hover {
+      background: var(--accent-neon-hover);
+    }
+
+    /* Add Member Button */
+    .btn-add-member {
+      background: var(--accent-neon);
+      color: #0D0D12;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 9px 14px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(212, 255, 0, 0.25);
+    }
+    .btn-add-member:hover {
+      background: var(--accent-neon-hover);
+      transform: translateY(-1px);
+    }
+
+    /* Native Modal Dialog with modern styling */
+    dialog.app-dialog {
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin: auto auto 0 auto;
+      max-width: 480px;
+      width: 100%;
+      outline: none;
+      overflow: visible;
+      color: var(--text-primary);
+    }
+    @media (min-width: 520px) {
+      dialog.app-dialog {
+        margin: auto;
+      }
+    }
+    dialog.app-dialog::backdrop {
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+    }
+    dialog.app-dialog[open] .dialog-content {
+      animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .dialog-content {
+      background: var(--surface-raised);
+      border-top-left-radius: var(--radius-lg);
+      border-top-right-radius: var(--radius-lg);
+      border: 1px solid var(--border-subtle);
+      padding: 24px 20px 32px 20px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @media (min-width: 520px) {
+      .dialog-content {
+        border-radius: var(--radius-lg);
+      }
+    }
+
+    /* Form Controls */
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .form-row {
+      display: flex;
+      gap: 12px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      background: var(--surface-card);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 11px 14px;
+      color: var(--text-primary);
+      font-family: var(--font-family);
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: var(--accent-neon);
+      box-shadow: 0 0 0 2px rgba(212, 255, 0, 0.18);
+      background: var(--surface-overlay);
+    }
+    .btn-secondary {
+      background: var(--surface-card);
+      border: 1px solid var(--border-accent);
+      color: var(--text-primary);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 12px;
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      background: var(--surface-overlay);
+    }
+
+    /* Plan Selection Grid */
+    .plan-options-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .plan-option-card {
+      position: relative;
+      cursor: pointer;
+    }
+    .plan-option-card input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .plan-option-inner {
+      background: var(--surface-card);
+      border: 1.5px solid var(--border-accent);
+      border-radius: var(--radius-md);
+      padding: 10px 8px;
+      text-align: center;
+      transition: all 0.2s ease;
+      min-height: 94px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .plan-option-card input[type="radio"]:checked + .plan-option-inner {
+      border-color: var(--accent-neon);
+      background: rgba(212, 255, 0, 0.08);
+      box-shadow: 0 0 12px rgba(212, 255, 0, 0.25);
+    }
+    .plan-badge {
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      background: var(--accent-neon);
+      color: #0D0D12;
+      border-radius: var(--radius-full);
+      padding: 2px 6px;
+      align-self: center;
+      margin-bottom: 2px;
+    }
+    .plan-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .plan-price {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 2px 0;
+    }
+    .plan-price small {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+    .plan-duration {
+      font-size: 9px;
+      color: var(--text-muted);
+      line-height: 1.2;
+    }
+
+    /* Newly Added Highlight Effect */
+    .subscriber-card.newly-added {
+      border-color: var(--accent-neon);
+      background: linear-gradient(90deg, rgba(212, 255, 0, 0.12), var(--surface-card));
+      animation: pulseHighlight 2.5s ease-out;
+    }
+    @keyframes pulseHighlight {
+      0% { box-shadow: 0 0 0 0 rgba(212, 255, 0, 0.7); }
+      70% { box-shadow: 0 0 0 14px rgba(212, 255, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(212, 255, 0, 0); }
+    }
+
+    /* Toast Notification */
+    .app-toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120px);
+      background: #1F1F2C;
+      border: 1px solid var(--accent-neon);
+      color: var(--text-primary);
+      padding: 12px 20px;
+      border-radius: var(--radius-full);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 20px rgba(212, 255, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      z-index: 3000;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+    .app-toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="gym-profile">
+      <div class="gym-avatar">FF</div>
+      <div class="gym-info">
+        <h1>FitForge Matrix</h1>
+        <p>Sucursal Central • Sede Principal</p>
+      </div>
+    </div>
+    <div class="status-ping">
+      <div class="dot"></div> EN VIVO
+    </div>
+  </header>
+
+  <!-- Content Container -->
+  <main class="content-area">
+    
+    <!-- PAGE 1: DASHBOARD PRINCIPAL -->
+    <div id="page-dashboard" class="tab-page active">
+      <!-- Financial Metric Header -->
+      <div class="card">
+        <div class="card-title">Ingreso Recurrente Mensual (MRR)</div>
+        <div class="metric-value">
+          $48,500 <span style="font-size:14px; font-weight:600; color:var(--text-secondary);">USD</span>
+          <span class="badge-trend up">↑ +14.2%</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-secondary); margin-top:8px;">
+          ARR estimado: <strong>$582,000 USD</strong> • Facturado este mes: $43,650
+        </p>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <div class="action-grid">
+        <div class="action-btn" onclick="switchTab('alerts')">
+          <div class="action-icon alert">🔔</div>
+          Alertas Hoy (12)
+        </div>
+        <div class="action-btn" onclick="openNewMemberModal()">
+          <div class="action-icon member">👤</div>
+          Nuevo Socio
+        </div>
+        <div class="action-btn" onclick="switchTab('calendar')">
+          <div class="action-icon promo">🎯</div>
+          Nueva Promo
+        </div>
+      </div>
+
+      <!-- Urgent Renewals Priority Section -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h2 style="font-size:14px; font-weight:700; color:var(--text-primary);">Renovaciones Prioritarias Hoy</h2>
+        <span style="font-size:12px; color:var(--accent-orange); font-weight:700; cursor:pointer;" onclick="switchTab('subscribers')">Ver todas →</span>
+      </div>
+
+      <div class="subscriber-card">
+        <div class="sub-left">
+          <div class="sub-avatar-wrap">
+            <img class="sub-avatar" src="https://i.pravatar.cc/150?u=carlos" alt="Carlos">
+            <div class="status-ring Expiring_Soon"></div>
+          </div>
+          <div class="sub-details">
+            <h3>Carlos Mendoza</h3>
+            <p>VIP Anual • Vence en 3 días</p>
+            <span class="sub-badge Expiring_Soon">Vence 07 Oct</span>
+          </div>
+        </div>
+        <button class="btn-wa" onclick="openWaModal('Carlos Mendoza', 3, 90.00)" title="Enviar Recordatorio por WhatsApp">💬</button>
+      </div>
+
+      <div class="subscriber-card">
+        <div class="sub-left">
+          <div class="sub-avatar-wrap">
+            <img class="sub-avatar" src="https://i.pravatar.cc/150?u=mateo" alt="Mateo">
+            <div class="status-ring Expiring_Soon"></div>
+          </div>
+          <div class="sub-details">
+            <h3>Mateo Fernández</h3>
+            <p>Mensual Básico • Vence Mañana</p>
+            <span class="sub-badge Expiring_Soon">Vence 05 Oct</span>
+          </div>
+        </div>
+        <button class="btn-wa" onclick="openWaModal('Mateo Fernández', 1, 45.00)" title="Enviar Recordatorio por WhatsApp">💬</button>
+      </div>
+
+      <!-- Mini Chart Card -->
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">Tendencia de Suscripciones (2026)</div>
+        <canvas id="miniTrendChart" height="130"></canvas>
+      </div>
+    </div>
+
+    <!-- PAGE 2: DIRECTORIO DE SUSCRIPTORES -->
+    <div id="page-subscribers" class="tab-page">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <div>
+          <h2 style="font-size:17px; font-weight:800; color:var(--text-primary);">Directorio de Socios</h2>
+          <p style="font-size:12px; color:var(--text-secondary);" id="subscriberCountSubtext">710 miembros registrados</p>
+        </div>
+        <button class="btn-add-member" onclick="openNewMemberModal()">
+          <span>+</span> Nuevo Socio
+        </button>
+      </div>
+
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Buscar socio por nombre, email o teléfono..." onkeyup="filterSubscribers()">
+      </div>
+
+      <!-- Filter Pills -->
+      <div class="filter-pills">
+        <button class="pill active" onclick="setFilter('all', this)">Todos (710)</button>
+        <button class="pill" onclick="setFilter('Active', this)">Activos (620)</button>
+        <button class="pill" onclick="setFilter('Expiring_Soon', this)">Por Vencer (27)</button>
+        <button class="pill" onclick="setFilter('Expired', this)">Vencidos (48)</button>
+        <button class="pill" onclick="setFilter('Paused', this)">Pausados (15)</button>
+      </div>
+
+      <!-- Subscriber List -->
+      <div id="subscriberListContainer">
+        <!-- Rendered dynamically via JS -->
+      </div>
+    </div>
+
+    <!-- PAGE 3: CALENDARIO & ESTACIONALIDAD -->
+    <div id="page-calendar" class="tab-page">
+      <!-- Seasonal AI Recommendation Banner -->
+      <div class="promo-banner">
+        <div class="promo-header">💡 Recomendación de Campaña Marketing</div>
+        <h3>Lanzar Promo "Febrero Fit Duo" (2x1)</h3>
+        <p>Históricamente, febrero presenta una caída del -45% en altas. Prepara una campaña anticipada para mitigar la baja estacional.</p>
+        <button class="btn-promo-action" onclick="alert('Campaña programada exitosamente en el calendario promocional!')">🚀 Activar Campaña Promocional</button>
+      </div>
+
+      <!-- Seasonality Chart -->
+      <div class="card">
+        <div class="card-title">Altas de Socios por Mes (Comparativa Interanual)</div>
+        <canvas id="seasonalityChart" height="180"></canvas>
+      </div>
+
+      <!-- Calendar Peak / Trough Legend -->
+      <div class="card">
+        <div class="card-title">Análisis de Picos & Caídas</div>
+        <div style="display:flex; justify-content:space-between; font-size:13px; padding:6px 0; border-bottom:1px solid var(--border-subtle);">
+          <span>🔥 Meses Pico (Alta Captación):</span>
+          <strong style="color:var(--accent-neon);">Enero, Junio, Septiembre</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:13px; padding:6px 0; margin-top:4px;">
+          <span>❄️ Meses Valle (Baja Captación):</span>
+          <strong style="color:var(--accent-orange);">Febrero, Agosto, Diciembre</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 4: CENTRO DE ALERTAS -->
+    <div id="page-alerts" class="tab-page">
+      <div class="card">
+        <div class="card-title">Motor Automatizado de Alertas de Pago</div>
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">
+          Cron Job diario (08:00 AM) que evalúa vencimientos a 7, 3 y 1 día con verificación de idempotencia en <code>NotificationsLog</code>.
+        </p>
+        <button class="btn-primary-cta" onclick="triggerManualCron()">
+          ⚙️ Ejecutar Evaluación Manual de Alertas
+        </button>
+      </div>
+
+      <h2 style="font-size:14px; font-weight:700; margin-bottom:10px;">Registro de Envíos Recientes (Audit Log)</h2>
+
+      <div class="subscriber-card">
+        <div class="sub-left">
+          <div style="background:rgba(37, 211, 102, 0.15); color:#25D366; width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;">💬</div>
+          <div class="sub-details">
+            <h3>Carlos Mendoza (3 Días)</h3>
+            <p>WhatsApp Cloud API • Entregado</p>
+            <span class="sub-badge Active">Enviado Hoy 08:00 AM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subscriber-card">
+        <div class="sub-left">
+          <div style="background:rgba(0, 194, 255, 0.15); color:var(--accent-info); width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;">📲</div>
+          <div class="sub-details">
+            <h3>Valeria Gómez (7 Días)</h3>
+            <p>Push Notification FCM • Entregado</p>
+            <span class="sub-badge Active">Enviado Hoy 08:00 AM</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="subscriber-card">
+        <div class="sub-left">
+          <div style="background:rgba(255, 92, 0, 0.15); color:var(--accent-orange); width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px;">⚠️</div>
+          <div class="sub-details">
+            <h3>Sofia Ruiz (Vencido)</h3>
+            <p>WhatsApp API • Vendedor asignado</p>
+            <span class="sub-badge Expiring_Soon">Enviado Hace 2 días</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE 5: MONETIZACIÓN & FINANZAS -->
+    <div id="page-financial" class="tab-page">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="card-title">MRR Actual</div>
+          <div class="kpi-num" style="color:var(--accent-neon);">$48,500</div>
+          <div class="kpi-sub">+14.2% vs mes anterior</div>
+        </div>
+        <div class="kpi-card">
+          <div class="card-title">ARR Proyectado</div>
+          <div class="kpi-num">$582,000</div>
+          <div class="kpi-sub">Basado en 12 meses</div>
+        </div>
+        <div class="kpi-card">
+          <div class="card-title">Ticket Prom. (ARPU)</div>
+          <div class="kpi-num">$68.30</div>
+          <div class="kpi-sub">USD por suscriptor</div>
+        </div>
+        <div class="kpi-card">
+          <div class="card-title">LTV (Lifetime Value)</div>
+          <div class="kpi-num" style="color:var(--accent-info);">$819.60</div>
+          <div class="kpi-sub">Retención promedio 12m</div>
+        </div>
+      </div>
+
+      <!-- Plan Distribution -->
+      <div class="card">
+        <div class="card-title">Desglose de Ingresos por Tipo de Plan</div>
+        <div style="margin-top:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+            <span>VIP Anual ($90/mes)</span>
+            <strong>51.9% ($25,200)</strong>
+          </div>
+          <div style="width:100%; height:8px; background:var(--surface-overlay); border-radius:4px; overflow:hidden; margin-bottom:12px;">
+            <div style="width:51.9%; height:100%; background:var(--accent-neon);"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+            <span>Pro Trimestral ($60/mes)</span>
+            <strong>27.2% ($13,200)</strong>
+          </div>
+          <div style="width:100%; height:8px; background:var(--surface-overlay); border-radius:4px; overflow:hidden; margin-bottom:12px;">
+            <div style="width:27.2%; height:100%; background:var(--accent-info);"></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+            <span>Mensual Básico ($48/mes)</span>
+            <strong>20.8% ($10,100)</strong>
+          </div>
+          <div style="width:100%; height:8px; background:var(--surface-overlay); border-radius:4px; overflow:hidden;">
+            <div style="width:20.8%; height:100%; background:var(--accent-orange);"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Churn & Renewal Rate Card -->
+      <div class="card">
+        <div class="card-title">Retención & Churn Rate</div>
+        <div style="display:flex; justify-content:space-around; text-align:center; padding:10px 0;">
+          <div>
+            <div style="font-size:24px; font-weight:800; color:var(--accent-neon);">91.8%</div>
+            <div style="font-size:11px; color:var(--text-secondary);">Tasa de Renovación</div>
+          </div>
+          <div style="width:1px; background:var(--border-subtle);"></div>
+          <div>
+            <div style="font-size:24px; font-weight:800; color:var(--accent-orange);">4.2%</div>
+            <div style="font-size:11px; color:var(--text-secondary);">Tasa de Churn (Cancelación)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Bottom Navigation Dock -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchTab('dashboard')">
+      <span class="nav-icon">📊</span>
+      <span>Dashboard</span>
+      <div class="nav-dot"></div>
+    </button>
+    <button class="nav-item" onclick="switchTab('subscribers')">
+      <span class="nav-icon">👥</span>
+      <span>Socios</span>
+      <div class="nav-dot"></div>
+    </button>
+    <button class="nav-item" onclick="switchTab('calendar')">
+      <span class="nav-icon">📅</span>
+      <span>Captación</span>
+      <div class="nav-dot"></div>
+    </button>
+    <button class="nav-item" onclick="switchTab('alerts')">
+      <span class="nav-icon">🔔</span>
+      <span>Alertas</span>
+      <div class="nav-dot"></div>
+    </button>
+    <button class="nav-item" onclick="switchTab('financial')">
+      <span class="nav-icon">💰</span>
+      <span>Finanzas</span>
+      <div class="nav-dot"></div>
+    </button>
+  </nav>
+
+  <!-- WhatsApp Reminder Modal Sheet -->
+  <div id="waModal" class="modal-overlay">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h2>Enviar Recordatorio WhatsApp</h2>
+        <button class="btn-close" onclick="closeWaModal()">✕</button>
+      </div>
+      <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">
+        Plantilla transaccional con enlace directo de cobro Stripe/PIX:
+      </p>
+      <div id="modalTemplateBody" class="template-box">
+        <!-- Message content injected here -->
+      </div>
+      <button class="btn-primary-cta" onclick="sendWhatsAppDirect()">
+        💬 Abrir WhatsApp API y Despachar
+      </button>
+    </div>
+  </div>
+
+  <!-- New Member Registration Modal Dialog (Modern Dialog API with closedby="any") -->
+  <dialog id="newMemberDialog" closedby="any" class="app-dialog" aria-labelledby="newMemberDialogTitle">
+    <div class="dialog-content">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="background:rgba(212, 255, 0, 0.15); color:var(--accent-neon); width:32px; height:32px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px;">👤</div>
+          <div>
+            <h2 id="newMemberDialogTitle" style="font-size:16px; font-weight:800; line-height:1.2;">Registrar Nuevo Socio</h2>
+            <p style="font-size:11px; color:var(--text-secondary);">FitForge Central • Alta de Membresía</p>
+          </div>
+        </div>
+        <button class="btn-close" onclick="closeNewMemberModal()" type="button" aria-label="Cerrar">✕</button>
+      </div>
+
+      <form id="newMemberForm" onsubmit="handleCreateMember(event)">
+        <div class="form-group">
+          <label for="memberName">Nombre Completo *</label>
+          <input type="text" id="memberName" class="form-input" placeholder="Ej: Camila Restrepo" required autocomplete="name">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label for="memberEmail">Email *</label>
+            <input type="email" id="memberEmail" class="form-input" placeholder="camila@fitforge.com" required autocomplete="email">
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label for="memberPhone">Teléfono / WhatsApp *</label>
+            <input type="tel" id="memberPhone" class="form-input" placeholder="+52 55 1234 5678" required autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Plan de Membresía *</label>
+          <div class="plan-options-grid">
+            <label class="plan-option-card">
+              <input type="radio" name="memberPlan" value="VIP Anual" checked>
+              <div class="plan-option-inner">
+                <span class="plan-badge">Popular</span>
+                <div class="plan-title">VIP Anual</div>
+                <div class="plan-price">$90 <small>/m</small></div>
+                <div class="plan-duration">365 días • Todo</div>
+              </div>
+            </label>
+            <label class="plan-option-card">
+              <input type="radio" name="memberPlan" value="Pro Trimestral">
+              <div class="plan-option-inner">
+                <span class="plan-badge" style="background:var(--accent-info); color:#fff;">3 Meses</span>
+                <div class="plan-title">Pro Trimes.</div>
+                <div class="plan-price">$60 <small>/m</small></div>
+                <div class="plan-duration">90 días • Acceso</div>
+              </div>
+            </label>
+            <label class="plan-option-card">
+              <input type="radio" name="memberPlan" value="Mensual Básico">
+              <div class="plan-option-inner">
+                <span class="plan-badge" style="background:var(--surface-overlay); color:var(--text-secondary);">Básico</span>
+                <div class="plan-title">Mensual</div>
+                <div class="plan-price">$45 <small>/m</small></div>
+                <div class="plan-duration">30 días • Regular</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="flex:1;">
+            <label for="memberStatus">Estado Inicial</label>
+            <select id="memberStatus" class="form-select">
+              <option value="Active" selected>🟢 Activo (Inmediato)</option>
+              <option value="Paused">⏸️ Pausado</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1;">
+            <label for="memberPaymentMethod">Método de Cobro</label>
+            <select id="memberPaymentMethod" class="form-select">
+              <option value="credit_card">💳 Tarjeta / Stripe</option>
+              <option value="cash">💵 Efectivo (Recepción)</option>
+              <option value="transfer">🏦 Transferencia / PIX</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:20px; display:flex; gap:10px;">
+          <button type="button" class="btn-secondary" onclick="closeNewMemberModal()" style="flex:1;">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-primary-cta" style="flex:2;">
+            <span>✓</span> Guardar y Activar
+          </button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Interactive Feedback Toast -->
+  <div id="appToast" class="app-toast"></div>
+</div>
+
+<script>
+  // Mock Subscribers Data
+  const subscribersData = [
+    { id: 1, name: "Carlos Mendoza", email: "carlos@fit.com", phone: "+52 55 1234 5678", avatar: "https://i.pravatar.cc/150?u=carlos", status: "Expiring_Soon", plan: "VIP Anual", endDate: "2026-10-07", price: 90.00, days: 3 },
+    { id: 2, name: "Valeria Gómez", email: "valeria@gym.com", phone: "+52 55 9876 5432", avatar: "https://i.pravatar.cc/150?u=valeria", status: "Active", plan: "Pro Trimestral", endDate: "2026-11-10", price: 60.00, days: 37 },
+    { id: 3, name: "Mateo Fernández", email: "mateo@mail.com", phone: "+52 55 5555 1212", avatar: "https://i.pravatar.cc/150?u=mateo", status: "Expiring_Soon", plan: "Mensual Básico", endDate: "2026-10-05", price: 45.00, days: 1 },
+    { id: 4, name: "Sofia Ruiz", email: "sofia@crossfit.com", phone: "+52 55 4444 3333", avatar: "https://i.pravatar.cc/150?u=sofia", status: "Expired", plan: "Mensual Básico", endDate: "2026-10-01", price: 45.00, days: -3 },
+    { id: 5, name: "Diego Torres", email: "diego@fit.com", phone: "+52 55 7777 8888", avatar: "https://i.pravatar.cc/150?u=diego", status: "Paused", plan: "VIP Anual", endDate: "2027-03-20", price: 90.00, days: 167 },
+    { id: 6, name: "Lucía Morales", email: "lucia@fit.com", phone: "+52 55 3333 9999", avatar: "https://i.pravatar.cc/150?u=lucia", status: "Active", plan: "VIP Anual", endDate: "2027-01-15", price: 90.00, days: 103 },
+    { id: 7, name: "Andrés Silva", email: "andres@gym.com", phone: "+52 55 2222 1111", avatar: "https://i.pravatar.cc/150?u=andres", status: "Expiring_Soon", plan: "Pro Trimestral", endDate: "2026-10-11", price: 60.00, days: 7 }
+  ];
+
+  let currentFilter = 'all';
+
+  // Navigation Logic
+  function switchTab(tabName) {
+    document.querySelectorAll('.tab-page').forEach(page => page.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+
+    const selectedPage = document.getElementById(`page-${tabName}`);
+    if (selectedPage) selectedPage.classList.add('active');
+
+    const activeNavIndex = ['dashboard', 'subscribers', 'calendar', 'alerts', 'financial'].indexOf(tabName);
+    if (activeNavIndex !== -1) {
+      document.querySelectorAll('.nav-item')[activeNavIndex].classList.add('active');
+    }
+  }
+
+  // Render Subscriber List with Filters & Search
+  function renderSubscribers() {
+    const container = document.getElementById('subscriberListContainer');
+    const query = document.getElementById('searchInput').value.toLowerCase();
+
+    const filtered = subscribersData.filter(s => {
+      const matchesFilter = currentFilter === 'all' || s.status === currentFilter;
+      const matchesQuery = s.name.toLowerCase().includes(query) || s.email.toLowerCase().includes(query) || s.phone.includes(query);
+      return matchesFilter && matchesQuery;
+    });
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:40px 20px; color:var(--text-secondary);">
+          <div style="font-size:36px; margin-bottom:8px;">🔍</div>
+          <p style="font-size:14px; font-weight:600;">No se encontraron socios</p>
+          <p style="font-size:12px; margin-top:4px;">Intenta cambiar los filtros o el término de búsqueda.</p>
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = filtered.map(s => {
+      let badgeLabel = 'Activo';
+      if (s.status === 'Expiring_Soon') badgeLabel = `Vence en ${s.days}d`;
+      if (s.status === 'Expired') badgeLabel = 'Vencido';
+      if (s.status === 'Paused') badgeLabel = 'Pausado';
+      if (s.isNew) badgeLabel = `⭐ NUEVO • ${badgeLabel}`;
+
+      return `
+        <div class="subscriber-card ${s.isNew ? 'newly-added' : ''}">
+          <div class="sub-left">
+            <div class="sub-avatar-wrap">
+              <img class="sub-avatar" src="${s.avatar}" alt="${s.name}" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.name)}&background=1F1F2C&color=D4FF00'">
+              <div class="status-ring ${s.status}"></div>
+            </div>
+            <div class="sub-details">
+              <h3>${s.name}</h3>
+              <p>${s.plan} • ${s.phone}</p>
+              <span class="sub-badge ${s.status}">${badgeLabel}</span>
+            </div>
+          </div>
+          <button class="btn-wa" onclick="openWaModal('${s.name.replace(/'/g, "\\'")}', ${s.days}, ${s.price})" title="Enviar WhatsApp">💬</button>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Update pill counts dynamically
+  function updateFilterCounts() {
+    const total = subscribersData.length;
+    const active = subscribersData.filter(s => s.status === 'Active').length;
+    const expiring = subscribersData.filter(s => s.status === 'Expiring_Soon').length;
+    const expired = subscribersData.filter(s => s.status === 'Expired').length;
+    const paused = subscribersData.filter(s => s.status === 'Paused').length;
+
+    const pills = document.querySelectorAll('.filter-pills .pill');
+    if (pills.length >= 5) {
+      pills[0].textContent = `Todos (${total})`;
+      pills[1].textContent = `Activos (${active})`;
+      pills[2].textContent = `Por Vencer (${expiring})`;
+      pills[3].textContent = `Vencidos (${expired})`;
+      pills[4].textContent = `Pausados (${paused})`;
+    }
+    const countSub = document.getElementById('subscriberCountSubtext');
+    if (countSub) countSub.textContent = `${total} miembros registrados`;
+  }
+
+  function setFilter(filter, el) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-pills .pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    renderSubscribers();
+  }
+
+  function filterSubscribers() {
+    renderSubscribers();
+  }
+
+  // Modal WhatsApp
+  let currentTargetUser = null;
+  function openWaModal(name, days, price) {
+    currentTargetUser = { name, days, price };
+    const modal = document.getElementById('waModal');
+    const template = document.getElementById('modalTemplateBody');
+    
+    const paymentLink = `https://pay.fitforge.gym/renew/sub-${Math.floor(Math.random()*900+100)}`;
+    const msg = days <= 0 
+      ? `Hola <strong>${name}</strong> 🏋️‍♂️, tu membresía en FitForge ha vencido. ¡No rompas tu progreso! Renueva en 1-clic aquí: <br><a href="#" style="color:var(--accent-neon);">${paymentLink}</a>`
+      : `Hola <strong>${name}</strong> 🔥, tu membresía vence en <strong>${days} días</strong>. Monto a renovar: <strong>$${price} USD</strong>. Renueva rápido aquí: <br><a href="#" style="color:var(--accent-neon);">${paymentLink}</a>`;
+    
+    template.innerHTML = msg;
+    modal.classList.add('active');
+  }
+
+  function closeWaModal() {
+    document.getElementById('waModal').classList.remove('active');
+  }
+
+  function sendWhatsAppDirect() {
+    alert(`Mensaje de WhatsApp despachado a ${currentTargetUser.name} vía API.`);
+    closeWaModal();
+  }
+
+  function triggerManualCron() {
+    alert("⚙️ Cron de Alertas Ejecutado: 12 recordatorios enviados (WhatsApp/Push FCM). Registrado en NotificationsLog.");
+  }
+
+  // New Member Modal Logic (Native HTML <dialog> with modern fallback)
+  function openNewMemberModal() {
+    const dialog = document.getElementById('newMemberDialog');
+    if (!dialog) return;
+    if (typeof dialog.showModal === 'function') {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute('open', '');
+    }
+    // Auto-focus first input
+    setTimeout(() => {
+      const nameInput = document.getElementById('memberName');
+      if (nameInput) nameInput.focus();
+    }, 50);
+  }
+
+  function closeNewMemberModal() {
+    const dialog = document.getElementById('newMemberDialog');
+    if (!dialog) return;
+    if (typeof dialog.close === 'function') {
+      dialog.close();
+    } else {
+      dialog.removeAttribute('open');
+    }
+  }
+
+  // Handle Form Submission for New Member
+  function handleCreateMember(event) {
+    event.preventDefault();
+    const name = document.getElementById('memberName').value.trim();
+    const email = document.getElementById('memberEmail').value.trim();
+    const phone = document.getElementById('memberPhone').value.trim();
+    const selectedPlanEl = document.querySelector('input[name="memberPlan"]:checked');
+    const plan = selectedPlanEl ? selectedPlanEl.value : 'VIP Anual';
+    const status = document.getElementById('memberStatus').value;
+
+    let days = 365;
+    let price = 90.00;
+    if (plan === 'Pro Trimestral') {
+      days = 90;
+      price = 60.00;
+    } else if (plan === 'Mensual Básico') {
+      days = 30;
+      price = 45.00;
+    }
+
+    const today = new Date();
+    const end = new Date(today.getTime() + days * 24 * 60 * 60 * 1000);
+    const endDateStr = end.toISOString().split('T')[0];
+
+    // Create unique avatar identifier
+    const seed = encodeURIComponent(name.toLowerCase().replace(/[^a-z0-9]/g, ''));
+    const avatar = `https://i.pravatar.cc/150?u=${seed || Date.now()}`;
+
+    const newSubscriber = {
+      id: Date.now(),
+      name,
+      email,
+      phone,
+      avatar,
+      status,
+      plan,
+      endDate: endDateStr,
+      price,
+      days,
+      isNew: true
+    };
+
+    // Prepend to top of subscriber list
+    subscribersData.unshift(newSubscriber);
+
+    // Reset filter to show all so user immediately sees their new member
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-pills .pill').forEach((p, idx) => {
+      if (idx === 0) p.classList.add('active');
+      else p.classList.remove('active');
+    });
+
+    // Clear search box
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+
+    // Update UI and close modal
+    updateFilterCounts();
+    renderSubscribers();
+    closeNewMemberModal();
+    document.getElementById('newMemberForm').reset();
+
+    // Show toast and switch to Socios tab
+    showToast(`🎉 ¡Socio "${name}" registrado con éxito!`);
+    switchTab('subscribers');
+
+    // Scroll to top smoothly to inspect the new card
+    const contentArea = document.querySelector('.content-area');
+    if (contentArea) {
+      contentArea.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  // Toast Notification
+  let toastTimeout = null;
+  function showToast(message) {
+    const toast = document.getElementById('appToast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('show');
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3200);
+  }
+
+  // Setup Light-Dismiss Fallback for Browsers without closedBy Support
+  const newMemberDialog = document.getElementById('newMemberDialog');
+  if (newMemberDialog && !('closedBy' in HTMLDialogElement.prototype)) {
+    newMemberDialog.addEventListener('click', (event) => {
+      if (event.target !== newMemberDialog) return;
+      const rect = newMemberDialog.getBoundingClientRect();
+      const isInside = (
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width
+      );
+      if (!isInside) {
+        newMemberDialog.close();
+      }
+    });
+  }
+
+  // Charts Initialization
+  window.addEventListener('DOMContentLoaded', () => {
+    updateFilterCounts();
+    renderSubscribers();
+
+    // Mini Trend Chart
+    const ctxMini = document.getElementById('miniTrendChart').getContext('2d');
+    new Chart(ctxMini, {
+      type: 'line',
+      data: {
+        labels: ['May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct'],
+        datasets: [{
+          label: 'Nuevas Altas',
+          data: [110, 130, 70, 58, 125, 90],
+          borderColor: '#D4FF00',
+          borderWidth: 3,
+          tension: 0.35,
+          pointBackgroundColor: '#D4FF00'
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#A0A0B2', font: { family: 'Plus Jakarta Sans' } } },
+          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#A0A0B2', font: { family: 'Plus Jakarta Sans' } } }
+        }
+      }
+    });
+
+    // Seasonality Chart
+    const ctxSeason = document.getElementById('seasonalityChart').getContext('2d');
+    new Chart(ctxSeason, {
+      type: 'bar',
+      data: {
+        labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        datasets: [{
+          label: 'Nuevas Altas 2026',
+          data: [142, 65, 88, 95, 110, 130, 70, 58, 125, 90, 82, 45],
+          backgroundColor: function(context) {
+            const val = context.raw;
+            if (val > 120) return '#D4FF00'; // Peak
+            if (val < 75) return '#FF5C00';  // Trough
+            return '#00C2FF';               // Stable
+          },
+          borderRadius: 6
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#A0A0B2', font: { family: 'Plus Jakarta Sans', size: 10 } } },
+          y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#A0A0B2', font: { family: 'Plus Jakarta Sans' } } }
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
